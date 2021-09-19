@@ -1,0 +1,20 @@
+Local $tagIVirtualDesktopPinnedApps = _
+    "IsAppIdPinned hresult(wstr,bool*);" & _        ; this is the hwnd but might need to be passed as (string appId)
+    "PinAppID hresult(wstr);" & _
+    "UnpinAppID hresult(wstr);" & _
+    "IsViewPinned hresult(ptr,bool*);" & _
+    "PinView hresult(ptr);" & _
+    "UnpinView hresult(ptr);"
+       
+   ; ------
+        
+$oService.QueryService($tCLSID_VirtualDesktopPinnedApps, $tIID_IVirtualDesktopPinnedApps, $pVirtualDesktopPinnedApps)
+ConsoleWrite("Virtual Desktop Pinned Apps = " & $pVirtualDesktopPinnedApps & @CRLF)
+Local $oVirtualDesktopPinnedApps = ObjCreateInterface($pVirtualDesktopPinnedApps, $IID_IVirtualDesktopPinnedApps, $tagIVirtualDesktopPinnedApps)
+ConsoleWrite("Virtual Desktop Pinned Apps = " & IsObj($oVirtualDesktopPinnedApps) & @CRLF)
+
+;-------------
+$iHresult = $oVirtualDesktopPinnedApps.PinView($pView)
+ConsoleWrite("Pinned View = " & $iHresult & @CRLF)
+$iHresult = $oVirtualDesktopPinnedApps.UnpinView($pView)
+ConsoleWrite("UnPinned View = " & $iHresult & @CRLF)
